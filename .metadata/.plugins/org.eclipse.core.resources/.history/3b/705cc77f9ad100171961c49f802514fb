@@ -1,0 +1,11 @@
+
+public class classData {
+	String name;
+	String superclass;
+	String[] clients;
+	String[] interfaces;
+	String[] providers;
+	String[] fields;
+	String[] methods;
+
+}

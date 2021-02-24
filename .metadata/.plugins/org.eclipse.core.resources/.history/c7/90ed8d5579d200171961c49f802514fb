@@ -1,0 +1,107 @@
+import java.io.File;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.util.Scanner;
+
+public class FileLoader extends classData {
+	public static boolean running = true;
+	public static Scanner input = new Scanner(System.in);
+	public static FileLoader fl = new FileLoader();
+	public static String path = "C:/Users/Ryan Hong/151HW3/hw5/bin";
+	public static File f = new File(path); // the directory, really!
+	public static String[] files = f.list();
+	public static File[] k = f.listFiles();
+	public static File[] j;
+
+	public void loadPackage() throws IOException {
+		System.out.println("Gathering class files in " + path);
+		FilenameFilter classFilter = new FilenameFilter() {
+			public boolean accept(File dir, String name) {
+				return name.toLowerCase().endsWith(".class");
+			}
+		};
+		
+		if (files.length == 0) {
+			System.out.println("The directory is empty");
+		} else {
+			int i = 1;
+			int removed = 0;
+			for (File file : f.listFiles(classFilter)) {
+				if(!file.getName().contains("$")){
+				System.out.println(i + ". " + file.getName().replace(".class", ""));
+				// try and add the class into a new arraylist
+				//j[i] = f.
+				i++;
+				}
+				
+				
+			}
+			k = f.listFiles(classFilter);
+		}
+	}
+
+	public static void mainMenu() throws IOException {
+		System.out.println("Welcome to Package Explorer - Main Menu");
+		System.out.println("---------------------------------------");
+		System.out.println("1. List all classes");
+		System.out.println("2. View a class");
+		System.out.println("3. Save all changes");
+		System.out.println("Enter your choice (1-3) or q to quit");
+		if (input.hasNextInt()) {
+			int nextInput = input.nextInt();
+			if (nextInput == 1) {
+				option1();
+			}
+			if(nextInput == 2){
+				option2();
+			}
+		} else {
+			String nextInput = input.nextLine();
+			if (nextInput.equals("q"))
+				;
+			return;
+		}
+	}
+
+	public static void option2() throws IOException{
+		fl.loadPackage();
+		System.out.println("Please enter the number to the corresponding class you would like to view. ( 1 - " +files.length+ " )" );
+		int nextInput = input.nextInt() - 1;
+		File current = k[nextInput];
+		name = current.getName().replace(".class", "");
+		//superclass = current.getParent();
+		String current2 = k[nextInput].getClass().getSuperclass().getSimpleName();//.toString();
+		
+		//superclass = current.;
+		System.out.println(name);
+		System.out.println(current2);
+	}
+	public static void option1() throws IOException {
+		fl.loadPackage();
+		
+		
+		System.out.println("Enter \"c\" to continue to Main Menu or \"q\" to quit...");
+		boolean close = false;
+		while (close == false) {
+			String nextInput = input.next();
+			if (nextInput.equals("c")) {
+				mainMenu();
+				close = true;
+			}
+			else if (nextInput.equals("q")) {
+				return;
+			}
+			else{
+				System.out.println("Please try again... Not a Valid Input.");
+				
+			}
+		}
+	}
+
+	public static void main(String[] args) throws IOException {
+
+		mainMenu();
+
+	}
+
+}
